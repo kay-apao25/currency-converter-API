@@ -45,8 +45,15 @@ async def get_supported_currencies(_: str = Depends(oauth2_scheme)):
 
 
 @app.get("/convert", response_class=PrettyJSONResponse)
-async def convert_currencies(from_currency: str, to_currency: str, amount: float, date: str = None, _: str = Depends(oauth2_scheme)):
-    ''' Facilitates converting of a certain amount from specified from and to currencies '''
+async def convert_currencies(
+    from_currency: str,
+    to_currency: str,
+    amount: float,
+    date: str = None, _: str = Depends(oauth2_scheme)):
+    ''' 
+        Facilitates converting of a certain amount from specified from and to currencies 
+        If endpoint is given a date argument it will convert the amount according to the rates of the specified date
+    '''
     url = f"{BASE_URL}convert?to={to_currency.upper()}&from={from_currency.upper()}&amount={amount}"
     if date:
         url = f"{url}&date={date}"
